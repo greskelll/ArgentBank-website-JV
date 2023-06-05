@@ -3,13 +3,14 @@ import { Form } from '../components/form';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import { userData } from '../utils/selectors';
 
 export function Login() {
-	const userLog = useSelector((state) => state.user.data);
+	const hasLog = useSelector(userData);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		if (userLog !== null) {
+		if (hasLog !== null) {
 			navigate('/User');
 		}
 	});
