@@ -1,6 +1,6 @@
 import produce from 'immer';
 
-const initialState = {
+export const initialState = {
 	status: 'void',
 	data: null,
 	error: null,
@@ -9,10 +9,16 @@ const initialState = {
 const FETCHING = 'login/fetching';
 const RESOLVED = 'login/resolved';
 const REJECTED = 'login/rejected';
+const LOGOUT = 'login/logout';
 
 const loginFetching = () => ({ type: FETCHING });
 const loginResolved = (data) => ({ type: RESOLVED, payload: data });
 const loginRejected = (error) => ({ type: REJECTED, payload: error });
+const loginLogout = (data) => ({ type: LOGOUT, payload: data });
+
+export function logout(store) {
+	store.dispatch(loginLogout());
+}
 
 export async function logUser(store) {
 	const status = store.getState().user.status;
@@ -93,6 +99,14 @@ export default function userReducer(state = initialState, action) {
 					draft.error = action.payload;
 					draft.data = null;
 					draft.status = 'rejected';
+					return;
+				}
+				return;
+			}
+			case LOGOUT: {
+				if (draft.status === 'resolved') {
+					draft.data = null;
+					draft.status = 'void';
 					return;
 				}
 				return;

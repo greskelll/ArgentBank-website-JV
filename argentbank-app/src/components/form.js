@@ -7,7 +7,6 @@ import { Navigate } from 'react-router-dom';
 function log(event) {
 	event.preventDefault();
 	logUser(store);
-	<Navigate to="/User" />;
 }
 
 export function Form() {

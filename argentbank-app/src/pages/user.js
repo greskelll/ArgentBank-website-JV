@@ -1,8 +1,19 @@
 import '../components/components.css';
 import { Button } from '../components/button';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { userData } from '../utils/selectors';
 
 export function User() {
-	/* a remplacer par un map sur les differents comptes ? */
+	const hasLog = useSelector(userData);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (hasLog === null) {
+			navigate('/');
+		}
+	});
 
 	return (
 		<main className="main bg-dark">
