@@ -8,6 +8,8 @@ import { userData } from '../utils/selectors';
 export function User() {
 	const hasLog = useSelector(userData);
 	const navigate = useNavigate();
+	const firstName = useSelector(userData)?.body.firstName;
+	const lastName = useSelector(userData)?.body.lastName;
 
 	useEffect(() => {
 		if (hasLog === null) {
@@ -21,7 +23,7 @@ export function User() {
 				<h1>
 					Welcome back
 					<br />
-					Tony Jarvis!
+					{`${firstName} ${lastName}`}
 				</h1>
 				<Button classStyle={'edit-button'} buttonText={'Edit Name'} />
 			</div>
