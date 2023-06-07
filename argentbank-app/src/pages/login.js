@@ -11,7 +11,7 @@ export function Login() {
 
 	useEffect(() => {
 		if (hasLog !== null) {
-			navigate('/User');
+			navigate('/Profile');
 		}
 	});
 

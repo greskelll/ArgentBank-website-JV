@@ -6,7 +6,7 @@ import { Button } from './button';
 import { logout } from '../features/login/user';
 import { store } from '../utils/store';
 
-function logouttest(event) {
+function logoutUser(event) {
 	event.preventDefault();
 	logout(store);
 }
@@ -16,11 +16,11 @@ export function Log() {
 	const name = useSelector(userData)?.body.userName;
 	return logged ? (
 		<div>
-			<Link to={''}>
+			<Link to={'/Profile'}>
 				<i className="fa fa-user-circle"></i>
 				{name}
 			</Link>
-			<Button buttonText={'Sign Out'} onClick={logouttest}></Button>
+			<Button buttonText={'Sign Out'} onClick={logoutUser}></Button>
 		</div>
 	) : (
 		<Link to={'Login'}>
