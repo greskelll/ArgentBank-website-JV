@@ -2,7 +2,6 @@ import './components.css';
 import { Button } from '../components/button';
 import { logUser } from '../features/login/user';
 import { store } from '../utils/store';
-import { Navigate } from 'react-router-dom';
 
 function log(event) {
 	event.preventDefault();
