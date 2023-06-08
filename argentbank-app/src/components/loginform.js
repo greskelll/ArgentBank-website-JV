@@ -1,5 +1,5 @@
 import './components.css';
-import { Button } from '../components/button';
+import { Button } from './button';
 import { logUser } from '../features/login/user';
 import { store } from '../utils/store';
 
@@ -8,7 +8,7 @@ function log(event) {
 	logUser(store);
 }
 
-export function Form() {
+export function LoginForm() {
 	return (
 		<section className="sign-in-content">
 			<i className="fa fa-user-circle sign-in-icon"></i>

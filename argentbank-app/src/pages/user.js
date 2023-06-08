@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { userData } from '../utils/selectors';
+import { EditUser } from '../components/editusername';
 
 export function User() {
 	const hasLog = useSelector(userData);
@@ -25,7 +26,15 @@ export function User() {
 					<br />
 					{`${firstName} ${lastName}`}
 				</h1>
-				<Button classStyle={'edit-button'} buttonText={'Edit Name'} />
+				<EditUser>
+					{({ setIsOpened }) => (
+						<Button
+							onClick={() => setIsOpened(true)}
+							classStyle={'edit-button'}
+							buttonText={'Edit Name'}
+						/>
+					)}
+				</EditUser>
 			</div>
 			<h2 className="sr-only">Accounts</h2>
 			<section className="account">

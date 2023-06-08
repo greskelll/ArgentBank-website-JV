@@ -212,6 +212,16 @@ input, button, textarea, select {
   margin-bottom: 1rem;
 }
 
+.edit-form {
+  box-sizing: border-box;
+  background-color: white;
+  color:black;
+  width: 300px;
+  margin: 0 auto;
+  margin-top: 3rem;
+  padding: 2rem;
+}
+
 .input-wrapper label {
   font-weight: bold;
 }
