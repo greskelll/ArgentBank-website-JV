@@ -1,5 +1,5 @@
 import '../components/components.css';
-import { Form } from '../components/form';
+import { LoginForm } from '../components/loginform';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -18,7 +18,7 @@ export function Login() {
 	return (
 		<>
 			<main className="main bg-dark">
-				<Form />
+				<LoginForm />
 			</main>
 		</>
 	);

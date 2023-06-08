@@ -1,23 +1,24 @@
-import produce from 'immer';
+import { createAction, createReducer } from '@reduxjs/toolkit';
 
 export const initialState = {
 	status: 'void',
 	data: null,
+	token: null,
 	error: null,
 };
 
-const FETCHING = 'login/fetching';
-const RESOLVED = 'login/resolved';
-const REJECTED = 'login/rejected';
-const LOGOUT = 'login/logout';
-
-const loginFetching = () => ({ type: FETCHING });
-const loginResolved = (data) => ({ type: RESOLVED, payload: data });
-const loginRejected = (error) => ({ type: REJECTED, payload: error });
-const loginLogout = (data) => ({ type: LOGOUT, payload: data });
+const loginFetching = createAction('login/fetching');
+const loginResolved = createAction('login/resolved');
+const loginRejected = createAction('login/rejected');
+const loginLogout = createAction('login/logout');
+const loginToken = createAction('login/token');
+const loginUserNameChanged = createAction('login/changedUser');
 
 export function logout(store) {
 	store.dispatch(loginLogout());
+}
+export function userNameChanged(store) {
+	store.dispatch(loginUserNameChanged());
 }
 
 export async function logUser(store) {
@@ -47,6 +48,7 @@ export async function logUser(store) {
 		);
 		const data = await response.json();
 		const token = data.body.token;
+
 		const newSettings = {
 			method: 'POST',
 			headers: {
@@ -55,6 +57,7 @@ export async function logUser(store) {
 				Authorization: `Bearer ${token}`,
 			},
 		};
+		store.dispatch(loginToken(token));
 		const getProfile = await fetch(
 			'http://localhost:3001/api/v1/user/profile',
 			newSettings
@@ -67,52 +70,56 @@ export async function logUser(store) {
 	}
 }
 
-export default function userReducer(state = initialState, action) {
-	return produce(state, (draft) => {
-		switch (action.type) {
-			case FETCHING: {
-				if (draft.status === 'void') {
-					draft.status = 'pending';
-					return;
-				}
-				if (draft.status === 'rejected') {
-					draft.error = null;
-					draft.status = 'pending';
-					return;
-				}
-				if (draft.status === 'resolved') {
-					draft.status = 'updating';
-					return;
-				}
+export default createReducer(initialState, (builder) =>
+	builder
+		.addCase(loginFetching, (draft) => {
+			if (draft.status === 'void') {
+				draft.status = 'pending';
 				return;
 			}
-			case RESOLVED: {
-				if (draft.status === 'pending' || draft.status === 'updating') {
-					draft.data = action.payload;
-					draft.status = 'resolved';
-					return;
-				}
+			if (draft.status === 'rejected') {
+				draft.error = null;
+				draft.status = 'pending';
 				return;
 			}
-			case REJECTED: {
-				if (draft.status === 'pending' || draft.status === 'updating') {
-					draft.error = action.payload;
-					draft.data = null;
-					draft.status = 'rejected';
-					return;
-				}
+			if (draft.status === 'resolved') {
+				draft.status = 'updating';
 				return;
 			}
-			case LOGOUT: {
-				if (draft.status === 'resolved') {
-					draft.data = null;
-					draft.status = 'void';
-					return;
-				}
+			return;
+		})
+		.addCase(loginResolved, (draft, action) => {
+			if (draft.status === 'pending' || draft.status === 'updating') {
+				draft.data = action.payload;
+				draft.status = 'resolved';
 				return;
 			}
-			default:
+			return;
+		})
+		.addCase(loginRejected, (draft, action) => {
+			if (draft.status === 'pending' || draft.status === 'updating') {
+				draft.error = action.payload;
+				draft.data = null;
+				draft.status = 'rejected';
 				return;
-		}
-	});
-}
+			}
+			return;
+		})
+		.addCase(loginLogout, (draft) => {
+			if (draft.status === 'resolved') {
+				draft.data = null;
+				draft.status = 'void';
+				return;
+			}
+			return;
+		})
+		.addCase(loginToken, (draft, action) => {
+			draft.token = action.payload;
+			return;
+		})
+		.addCase(loginUserNameChanged, (draft) => {
+			draft.data.body.userName =
+				document.getElementById('new_username').value;
+			return;
+		})
+);
