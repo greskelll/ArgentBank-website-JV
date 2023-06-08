@@ -222,6 +222,10 @@ input, button, textarea, select {
   padding: 2rem;
 }
 
+.error {
+  color:red;
+}
+
 .input-wrapper label {
   font-weight: bold;
 }
