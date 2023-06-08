@@ -96,9 +96,9 @@ export default createReducer(initialState, (builder) =>
 			}
 			return;
 		})
-		.addCase(loginRejected, (draft, action) => {
+		.addCase(loginRejected, (draft) => {
 			if (draft.status === 'pending' || draft.status === 'updating') {
-				draft.error = action.payload;
+				draft.error = `Erreur dans l'identifiant ou le mot de passe`;
 				draft.data = null;
 				draft.status = 'rejected';
 				return;

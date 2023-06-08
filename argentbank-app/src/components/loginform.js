@@ -2,6 +2,8 @@ import './components.css';
 import { Button } from './button';
 import { logUser } from '../features/login/user';
 import { store } from '../utils/store';
+import { loginError } from '../utils/selectors';
+import { useSelector } from 'react-redux';
 
 function log(event) {
 	event.preventDefault();
@@ -9,6 +11,7 @@ function log(event) {
 }
 
 export function LoginForm() {
+	const error = useSelector(loginError);
 	return (
 		<section className="sign-in-content">
 			<i className="fa fa-user-circle sign-in-icon"></i>
@@ -31,6 +34,7 @@ export function LoginForm() {
 					onClick={log}
 					classStyle={'sign-in-button'}
 				/>
+				<p className="error">{error}</p>
 			</form>
 		</section>
 	);
