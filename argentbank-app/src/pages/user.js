@@ -18,7 +18,7 @@ export function User() {
 		}
 	});
 
-	return (
+	return hasLog ? (
 		<main className="main bg-dark">
 			<div className="header">
 				<h1>
@@ -87,5 +87,7 @@ export function User() {
 				</div>
 			</section>
 		</main>
+	) : (
+		<></>
 	);
 }
