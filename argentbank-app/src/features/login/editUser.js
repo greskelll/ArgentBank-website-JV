@@ -1,7 +1,7 @@
 import { store } from '../../utils/store';
 import { userNameChanged } from './user';
 
-export async function fetchUserEdit() {
+export async function fetchUserEdit(newUserNameState) {
 	const newUserName = document.getElementById('new_username').value;
 	const state = store.getState();
 	const token = state.user.token;
@@ -22,7 +22,7 @@ export async function fetchUserEdit() {
 			settings
 		);
 		const data = await response.json();
-		userNameChanged(store);
+		userNameChanged(store, newUserNameState);
 		console.log(data);
 	} catch (error) {
 		alert(error);

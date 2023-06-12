@@ -17,8 +17,8 @@ const loginUserNameChanged = createAction('login/changedUser');
 export function logout(store) {
 	store.dispatch(loginLogout());
 }
-export function userNameChanged(store) {
-	store.dispatch(loginUserNameChanged());
+export function userNameChanged(store, newUserName) {
+	store.dispatch(loginUserNameChanged(newUserName));
 }
 
 export async function logUser(store) {
@@ -48,7 +48,6 @@ export async function logUser(store) {
 		);
 		const data = await response.json();
 		const token = data.body.token;
-
 		const newSettings = {
 			method: 'POST',
 			headers: {
@@ -109,6 +108,7 @@ export default createReducer(initialState, (builder) =>
 			if (draft.status === 'resolved') {
 				draft.data = null;
 				draft.status = 'void';
+				draft.token = null;
 				return;
 			}
 			return;
@@ -117,9 +117,8 @@ export default createReducer(initialState, (builder) =>
 			draft.token = action.payload;
 			return;
 		})
-		.addCase(loginUserNameChanged, (draft) => {
-			draft.data.body.userName =
-				document.getElementById('new_username').value;
+		.addCase(loginUserNameChanged, (draft, action) => {
+			draft.data.body.userName = action.payload;
 			return;
 		})
 );
