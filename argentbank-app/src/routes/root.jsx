@@ -9,7 +9,7 @@ export default function Root() {
       <>
       <Header children={<Log />} />
             <Outlet/>
-			<Footer />
+			<Footer website={'Argent Bank'}/>
 		</>
   );
 }
