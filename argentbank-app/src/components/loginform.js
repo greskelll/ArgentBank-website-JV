@@ -4,6 +4,7 @@ import { logUser } from '../features/login/user';
 import { store } from '../utils/store';
 import { loginError } from '../utils/selectors';
 import { useSelector } from 'react-redux';
+import { Field } from './field';
 
 function log(event) {
 	event.preventDefault();
@@ -19,11 +20,11 @@ export function LoginForm() {
 			<form>
 				<div className="input-wrapper">
 					<label for="username">Username</label>
-					<input type="text" id="username" required />
+					<Field type={'text'} id={'username'} />
 				</div>
 				<div className="input-wrapper">
 					<label for="password">Password</label>
-					<input type="password" id="password" required />
+					<Field type={'password'} id={'password'} />
 				</div>
 				<div className="input-remember">
 					<input type="checkbox" id="remember-me" />

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { userData } from '../utils/selectors';
 import { fetchUserEdit } from '../features/login/editUser';
+import { Field } from './field';
 
 export function EditUser({ opened = false, children }) {
 	const [isOpened, setIsOpened] = useState(opened);
@@ -13,6 +14,7 @@ export function EditUser({ opened = false, children }) {
 	function launchEdit(event) {
 		event.preventDefault();
 		fetchUserEdit(currentUserName);
+		setIsOpened(false);
 	}
 	useEffect(() => {
 		console.log(userName);
@@ -24,46 +26,43 @@ export function EditUser({ opened = false, children }) {
 				<form className="edit-form">
 					<div className="input-wrapper">
 						<label for="username">User name</label>
-						<input
-							type="text"
-							id="new_username"
+						<Field
+							type={'text'}
+							id={'new_username'}
 							value={currentUserName}
 							onChange={(e) => {
 								setCurrentUserName(e.target.value);
 							}}
-							required
 						/>
 					</div>
 					<div className="input-wrapper">
 						<label for="firstname">First name</label>
-						<input
-							type="text"
-							id="firstname"
+						<Field
+							type={'text'}
+							id={'firstname'}
 							value={firstName}
 							readOnly
-							required
 						/>
 					</div>
 					<div className="input-wrapper">
 						<label for="lastname">Last name</label>
-						<input
-							type="text"
-							id="lastname"
+						<Field
+							type={'text'}
+							id={'lastname'}
 							value={lastName}
 							readOnly
-							required
 						/>
 					</div>
 					<Button
 						buttonText={'Save'}
 						onClick={launchEdit}
-						classStyle={'sign-in-button'}
+						classStyle={'edit-button'}
 					/>
 					<Button
 						buttonText={'Cancel'}
 						type="button"
 						onClick={() => setIsOpened(false)}
-						classStyle={'sign-in-button'}
+						classStyle={'edit-button'}
 					/>
 				</form>
 			)}
