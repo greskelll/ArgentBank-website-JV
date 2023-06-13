@@ -13,6 +13,7 @@ export function EditUser({ opened = false, children }) {
 	function launchEdit(event) {
 		event.preventDefault();
 		fetchUserEdit(currentUserName);
+		setIsOpened(false);
 	}
 	useEffect(() => {
 		console.log(userName);
@@ -57,13 +58,13 @@ export function EditUser({ opened = false, children }) {
 					<Button
 						buttonText={'Save'}
 						onClick={launchEdit}
-						classStyle={'sign-in-button'}
+						classStyle={'edit-button'}
 					/>
 					<Button
 						buttonText={'Cancel'}
 						type="button"
 						onClick={() => setIsOpened(false)}
-						classStyle={'sign-in-button'}
+						classStyle={'edit-button'}
 					/>
 				</form>
 			)}

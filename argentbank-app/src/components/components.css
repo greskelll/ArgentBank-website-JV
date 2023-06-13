@@ -184,6 +184,10 @@ input, button, textarea, select {
   color: #fff;
 }
 
+.edit-button {
+  margin:20px;
+}
+
 .sign-in-content {
   box-sizing: border-box;
   background-color: white;
@@ -220,6 +224,10 @@ input, button, textarea, select {
   margin: 0 auto;
   margin-top: 3rem;
   padding: 2rem;
+}
+
+#firstname, #lastname {
+  background-color: #969a9f;
 }
 
 .error {
