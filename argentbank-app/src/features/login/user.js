@@ -1,4 +1,4 @@
-import { createAction, createReducer } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 export const initialState = {
 	status: 'void',
@@ -7,18 +7,80 @@ export const initialState = {
 	error: null,
 };
 
-const loginFetching = createAction('login/fetching');
-const loginResolved = createAction('login/resolved');
-const loginRejected = createAction('login/rejected');
-const loginLogout = createAction('login/logout');
-const loginToken = createAction('login/token');
-const loginUserNameChanged = createAction('login/changedUser');
+const { actions, reducer } = createSlice({
+	name: 'logUser',
+	initialState,
+	reducers: {
+		fetching: {
+			reducer: (draft) => {
+				if (draft.status === 'void') {
+					draft.status = 'pending';
+					return;
+				}
+				if (draft.status === 'rejected') {
+					draft.error = null;
+					draft.status = 'pending';
+					return;
+				}
+				if (draft.status === 'resolved') {
+					draft.status = 'updating';
+					return;
+				}
+				return;
+			},
+		},
+		resolved: {
+			reducer: (draft, action) => {
+				if (draft.status === 'pending' || draft.status === 'updating') {
+					draft.data = action.payload;
+					draft.status = 'resolved';
+					return;
+				}
+				return;
+			},
+		},
+		rejected: {
+			reducer: (draft) => {
+				if (draft.status === 'pending' || draft.status === 'updating') {
+					draft.error = `Erreur dans l'identifiant ou le mot de passe`;
+					draft.data = null;
+					draft.status = 'rejected';
+					return;
+				}
+				return;
+			},
+		},
+		loggedOut: {
+			reducer: (draft) => {
+				if (draft.status === 'resolved') {
+					draft.data = null;
+					draft.status = 'void';
+					draft.token = null;
+					return;
+				}
+				return;
+			},
+		},
+		tokenSaved: {
+			reducer: (draft, action) => {
+				draft.token = action.payload;
+				return;
+			},
+		},
+		usernameChanged: {
+			reducer: (draft, action) => {
+				draft.data.body.userName = action.payload;
+				return;
+			},
+		},
+	},
+});
 
 export function logout(store) {
-	store.dispatch(loginLogout());
+	store.dispatch(actions.loggedOut());
 }
 export function userNameChanged(store, newUserName) {
-	store.dispatch(loginUserNameChanged(newUserName));
+	store.dispatch(actions.usernameChanged(newUserName));
 }
 
 export async function logUser(store) {
@@ -27,7 +89,7 @@ export async function logUser(store) {
 	if (status === 'pending' || status === 'updating') {
 		return;
 	}
-	store.dispatch(loginFetching());
+	store.dispatch(actions.fetching());
 	const email = document.getElementById('username').value;
 	const password = document.getElementById('password').value;
 	const settings = {
@@ -56,69 +118,17 @@ export async function logUser(store) {
 				Authorization: `Bearer ${token}`,
 			},
 		};
-		store.dispatch(loginToken(token));
+		store.dispatch(actions.tokenSaved(token));
 		const getProfile = await fetch(
 			'http://localhost:3001/api/v1/user/profile',
 			newSettings
 		);
 		const profileData = await getProfile.json();
 		console.log(profileData);
-		store.dispatch(loginResolved(profileData));
+		store.dispatch(actions.resolved(profileData));
 	} catch (error) {
-		store.dispatch(loginRejected(error));
+		store.dispatch(actions.rejected(error));
 	}
 }
 
-export default createReducer(initialState, (builder) =>
-	builder
-		.addCase(loginFetching, (draft) => {
-			if (draft.status === 'void') {
-				draft.status = 'pending';
-				return;
-			}
-			if (draft.status === 'rejected') {
-				draft.error = null;
-				draft.status = 'pending';
-				return;
-			}
-			if (draft.status === 'resolved') {
-				draft.status = 'updating';
-				return;
-			}
-			return;
-		})
-		.addCase(loginResolved, (draft, action) => {
-			if (draft.status === 'pending' || draft.status === 'updating') {
-				draft.data = action.payload;
-				draft.status = 'resolved';
-				return;
-			}
-			return;
-		})
-		.addCase(loginRejected, (draft) => {
-			if (draft.status === 'pending' || draft.status === 'updating') {
-				draft.error = `Erreur dans l'identifiant ou le mot de passe`;
-				draft.data = null;
-				draft.status = 'rejected';
-				return;
-			}
-			return;
-		})
-		.addCase(loginLogout, (draft) => {
-			if (draft.status === 'resolved') {
-				draft.data = null;
-				draft.status = 'void';
-				draft.token = null;
-				return;
-			}
-			return;
-		})
-		.addCase(loginToken, (draft, action) => {
-			draft.token = action.payload;
-			return;
-		})
-		.addCase(loginUserNameChanged, (draft, action) => {
-			draft.data.body.userName = action.payload;
-			return;
-		})
-);
+export default reducer;
