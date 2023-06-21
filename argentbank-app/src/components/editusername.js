@@ -25,7 +25,7 @@ export function EditUser({ opened = false, children }) {
 			{isOpened && (
 				<form className="edit-form">
 					<div className="input-wrapper">
-						<label for="username">User name</label>
+						<label htmlFor="username">User name</label>
 						<Field
 							type={'text'}
 							id={'new_username'}
@@ -36,7 +36,7 @@ export function EditUser({ opened = false, children }) {
 						/>
 					</div>
 					<div className="input-wrapper">
-						<label for="firstname">First name</label>
+						<label htmlFor="firstname">First name</label>
 						<Field
 							type={'text'}
 							id={'firstname'}
@@ -45,7 +45,7 @@ export function EditUser({ opened = false, children }) {
 						/>
 					</div>
 					<div className="input-wrapper">
-						<label for="lastname">Last name</label>
+						<label htmlFor="lastname">Last name</label>
 						<Field
 							type={'text'}
 							id={'lastname'}
