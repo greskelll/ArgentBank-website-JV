@@ -1,0 +1,302 @@
+swagger: '2.0'
+info:
+    title: Bank Argent API documentation
+    description: Contains all API endpoints in preparation of parts 2 of Argent Bank Project
+    version: '1.0.0'
+    termsOfService: 'http://swagger.io/terms/'
+host: localhost:3002
+basePath: /api/v2
+schemes:
+    - http
+paths:
+    /user/profile/transactions/month:
+        post:
+            security:
+                - Bearer: []
+            tags:
+                - User Module
+            summary: Transactions
+            description: API to see Transactions
+            parameters:
+                - in: body
+                  name: body
+                  description: Current month
+                  required: true
+                  schema:
+                      $ref: '#/definitions/currentMonth'
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Got Transactions Successfully
+                    schema:
+                        $ref: '#/definitions/Transactions'
+                '404':
+                    description: Invalid parameters ( month )
+                '401':
+                    description: You are not authentified , cant get account balance
+                '500':
+                    description: Internal Server Error
+    /user/profile/transactions/{id}/note:
+        post:
+            security:
+                - Bearer: []
+            tags:
+                - User Module
+            summary: Add note details to a transaction
+            description: API for adding note details to a transaction
+            parameters:
+                - in: path
+                  name: id
+                  description: the id of the transaction
+                  required: true
+                  type: integer
+                  format: int64
+                - in: body
+                  name: body
+                  description: Signup Payload
+                  required: true
+                  schema:
+                      $ref: '#/definitions/newNote'
+            produces:
+                - application/json
+            responses:
+                '201':
+                    description: Created Note Successfully
+                    schema:
+                        $ref: '#/definitions/ApiNoteResponse'
+                '404':
+                    description: Used an invalid transaction ID
+                '401':
+                    description: You are not authentified, cant add a note
+                '500':
+                    description: Internal Server Error
+    /user/profile/transactions/{id}/note/{note_id}:
+        put:
+            security:
+                - Bearer: []
+            tags:
+                - User Module
+            summary: Modify note details of a transaction
+            description: API for modifying already existing note of a transaction
+            parameters:
+                - in: path
+                  name: id
+                  description: the id of the transaction
+                  required: true
+                  type: integer
+                  format: int64
+                - in: path
+                  name: note_id
+                  description: the id of the note
+                  required: true
+                  type: integer
+                  format: int64
+                - in: body
+                  name: body
+                  description: Modified Note Successfully
+                  required: true
+                  schema:
+                      $ref: '#/definitions/newNote'
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Modified data Successfully
+                    schema:
+                        $ref: '#/definitions/ApiNotePutResponse'
+                '404':
+                    description: Used invalid transaction ID and/or note ID while trying to modify an existing note
+                '401':
+                    description: You are not authentified, cant modify note
+                '500':
+                    description: Internal Server Error
+        delete:
+            security:
+                - Bearer: []
+            tags:
+                - User Module
+            summary: Remove note details from a transaction
+            description: API for removing note details from a transaction
+            parameters:
+                - in: path
+                  name: id
+                  description: the id of the transaction
+                  required: true
+                  type: integer
+                  format: int64
+                - in: path
+                  name: note_id
+                  description: the id of the note
+                  required: true
+                  type: integer
+                  format: int64
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Deleted Note Successfully
+                    schema:
+                        $ref: '#/definitions/ApiNoteDeletedResponse'
+                '404':
+                    description: Tried to delete a non existent note , check ID or note_id
+                '401':
+                    description: You are not authentified, cant delete note
+                '500':
+                    description: Internal Server Error
+    /user/profile/transactions/{id}/category:
+        put:
+            security:
+                - Bearer: []
+            tags:
+                - User Module
+            summary: Modify category details of a transaction
+            description: API for changing already existing category of a transaction
+            parameters:
+                - in: body
+                  name: body
+                  description: the new category to apply
+                  required: true
+                  schema:
+                      $ref: '#/definitions/Category'
+                - in: path
+                  name: id
+                  description: the id of the transaction
+                  required: true
+                  type: integer
+                  format: int64
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Modified data Successfully
+                    schema:
+                        $ref: '#/definitions/ApiCategoryResponse'
+                '400':
+                    description: Invalid Fields selection for category
+                '401':
+                    description: You are not authentified, cant select new category
+                '500':
+                    description: Internal Server Error
+
+securityDefinitions:
+    Bearer:
+        type: apiKey
+        name: Authorization
+        in: header
+definitions:
+    Transactions:
+        properties:
+            transaction_1:
+                type: object
+                properties:
+                    date:
+                        type: string
+                        description: transaction date
+                    amount:
+                        type: string
+                        description: transaction amount
+                    name:
+                        type: string
+                        description: transaction amount
+                    type:
+                        type: string
+                        description: transaction amount
+                    category:
+                        type: string
+                        description: transaction amount
+                    note:
+                        type: string
+                        description: transaction amount
+                    id:
+                        type: integer
+                        description: transaction id
+            transaction_2:
+                type: object
+                properties:
+                    date:
+                        type: string
+                        description: transaction date
+                    amount:
+                        type: string
+                        description: transaction amount
+                    name:
+                        type: string
+                        description: transaction amount
+                    type:
+                        type: string
+                        description: transaction amount
+                    category:
+                        type: string
+                        description: transaction amount
+                    note:
+                        type: string
+                        description: transaction amount
+                    id:
+                        type: integer
+                        description: transaction id
+    currentMonth:
+        properties:
+            month:
+                type: string
+                description: current month
+    newNote:
+        properties:
+            note:
+                type: string
+                description: the id of the transaction
+    ApiNoteResponse:
+        type: object
+        properties:
+            status:
+                type: integer
+            message:
+                type: string
+            body:
+                type: object
+                properties:
+                    note:
+                        type: string
+                    note_id:
+                        type: integer
+    ApiNotePutResponse:
+        type: object
+        properties:
+            status:
+                type: integer
+            note:
+                type: string
+    ApiNoteDeletedResponse:
+        type: object
+        properties:
+            status:
+                type: integer
+            message:
+                type: string
+    ApiCategoryResponse:
+        type: object
+        properties:
+            status:
+                type: integer
+            message:
+                type: string
+            body:
+                type: object
+                properties:
+                    category:
+                        type: string
+    Category:
+        properties:
+            category:
+                type: string
+                description: the category of the transaction
+    LoginResponse:
+        type: object
+        properties:
+            token:
+                type: string
+    UserProfile:
+        type: object
+        properties:
+            userName:
+                type: string
