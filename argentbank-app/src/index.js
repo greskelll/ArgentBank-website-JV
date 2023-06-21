@@ -7,7 +7,7 @@ import { RouterProvider } from 'react-router-dom';
 import { router } from './rooter';
 import { PersistGate } from 'redux-persist/integration/react';
 
-/* persistGate va delayer le chargement jusquèa ce que l'on récupère les data de user */
+/* persistGate va delayer le chargement jusqu'à ce que l'on récupère les data de user */
 
 const container = document.getElementById('root');
 const root = createRoot(container);
