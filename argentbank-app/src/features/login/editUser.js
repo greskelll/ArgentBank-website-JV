@@ -22,6 +22,7 @@ export async function fetchUserEdit(newUserNameState) {
 			settings
 		);
 		const data = await response.json();
+		console.log(`le userName a bien été modifié par ${data.body.userName}`);
 		userNameChanged(store, newUserNameState);
 	} catch (error) {
 		alert(error);
