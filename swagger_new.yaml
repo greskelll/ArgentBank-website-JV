@@ -37,6 +37,34 @@ paths:
                     description: You are not authentified , cant get account balance
                 '500':
                     description: Internal Server Error
+    /user/profile/transactions/{id}:
+        get:
+            security:
+                - Bearer: []
+            tags:
+                - User Module
+            summary: Transactions
+            description: API to see details of a transaction
+            parameters:
+                - in: path
+                  name: id
+                  description: the id of the transaction
+                  required: true
+                  type: integer
+                  format: int64
+            produces:
+                - application/json
+            responses:
+                '200':
+                    description: Got transaction details Successfully
+                    schema:
+                        $ref: '#/definitions/Transaction'
+                '404':
+                    description: Invalid parameters ( id )
+                '401':
+                    description: You are not authentified , cant get account details
+                '500':
+                    description: Internal Server Error
     /user/profile/transactions/{id}/note:
         post:
             security:
@@ -199,19 +227,27 @@ definitions:
                     name:
                         type: string
                         description: transaction amount
-                    type:
+                    id:
+                        type: integer
+                        description: transaction id
+            transaction_2:
+                type: object
+                properties:
+                    date:
+                        type: string
+                        description: transaction date
+                    amount:
                         type: string
                         description: transaction amount
-                    category:
-                        type: string
-                        description: transaction amount
-                    note:
+                    name:
                         type: string
                         description: transaction amount
                     id:
                         type: integer
                         description: transaction id
-            transaction_2:
+    Transaction:
+        properties:
+            transaction:
                 type: object
                 properties:
                     date:
