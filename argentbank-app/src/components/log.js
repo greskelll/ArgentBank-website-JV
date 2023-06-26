@@ -20,7 +20,12 @@ export function Log() {
 				<i className="fa fa-user-circle"></i>
 				{name}
 			</Link>
-			<Button buttonText={'Sign Out'} onClick={logoutUser}></Button>
+			<i class="fa fa-sign-out"></i>
+			<Button
+				classStyle={'sign_out'}
+				buttonText={'Sign Out'}
+				onClick={logoutUser}
+			></Button>
 		</div>
 	) : (
 		<Link to={'Login'}>

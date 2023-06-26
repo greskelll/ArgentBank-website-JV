@@ -124,7 +124,6 @@ export async function logUser(store) {
 			newSettings
 		);
 		const profileData = await getProfile.json();
-		console.log(profileData);
 		store.dispatch(actions.resolved(profileData));
 	} catch (error) {
 		store.dispatch(actions.rejected(error));

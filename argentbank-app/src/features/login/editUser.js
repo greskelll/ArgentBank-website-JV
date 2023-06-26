@@ -23,7 +23,6 @@ export async function fetchUserEdit(newUserNameState) {
 		);
 		const data = await response.json();
 		userNameChanged(store, newUserNameState);
-		console.log(data);
 	} catch (error) {
 		alert(error);
 	}
