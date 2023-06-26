@@ -38,7 +38,7 @@ paths:
                 '500':
                     description: Internal Server Error
     /user/profile/transactions/{id}:
-        post:
+        get:
             security:
                 - Bearer: []
             tags:
