@@ -16,9 +16,7 @@ export function EditUser({ opened = false, children }) {
 		fetchUserEdit(currentUserName);
 		setIsOpened(false);
 	}
-	useEffect(() => {
-		console.log(userName);
-	}, [userName]);
+	useEffect(() => {}, [userName]);
 	return (
 		<>
 			{children({ isOpened, setIsOpened })}

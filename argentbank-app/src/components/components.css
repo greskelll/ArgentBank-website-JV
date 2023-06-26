@@ -74,6 +74,20 @@ input, button, textarea, select {
   margin-right: 0.5rem;
 }
 
+.fa-sign-out {
+  margin-left: 0.5rem;
+}
+
+.sign_out {
+  border:none;
+  font-weight: bold;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.fa-user-circle {
+  margin: 0.5rem;
+}
 
 .main-nav-item:hover {
   text-decoration: underline;
@@ -197,9 +211,6 @@ input, button, textarea, select {
   padding: 2rem;
 }
 
-.sign-in-icon {
-  font-size: 5rem;
-}
 
 .input-remember {
   display: flex;
